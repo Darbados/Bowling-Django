@@ -1,0 +1,10 @@
+[
+  {
+    "model": "bowling.game",
+    "pk": 1,
+    "fields": {
+      "player": "Pesho",
+      "total_score": "256"
+    }
+  },
+]

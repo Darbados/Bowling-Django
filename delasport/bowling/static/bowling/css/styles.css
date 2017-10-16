@@ -1,0 +1,92 @@
+.container {
+  width: 1600px!important;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  text-align: center;
+}
+
+
+.title {
+  text-align: center;
+  font-style: italic;
+  font-size: 2.2em;
+}
+
+.show_roll_results {
+  width: 50%!important;
+  margin: 0 auto;
+  border-spacing: 5px;
+}
+
+.show_roll_results > tbody > tr > td {
+  background-color: #42f46b;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+  padding: 5px;
+  border-left: 1px solid #fff;
+}
+
+#total_score {
+  margin: 0 auto;
+  width: 400px;
+}
+
+#scoreboard {
+  text-align: center;
+}
+
+#scoreboard li {
+  display: inline-block!important;
+  list-style: none!important;
+  width: 100px;
+  border: 1px solid #ccc;
+  background: rgba(0,0,0,0.3);
+}
+
+.explicit {
+  width: 120px!important;
+}
+
+.left-border {
+  border-left: 1px solid #ccc;
+}
+
+
+.bottom-border {
+  border-bottom: 1px solid #ccc;
+}
+
+.roll1 {
+  padding: 5px;
+  margin-left: 22px;
+  background: #fff;
+}
+
+.roll2 {
+  padding: 5px;
+  background: #fff;
+}
+
+.roll3 {
+  padding: 5px;
+  background: #fff;
+}
+
+.total_frame {
+  padding-top: 5px;
+  text-align: center;
+}
+
+.results {
+  padding: 5px;
+}
+
+.legend {
+  text-align: center;
+}

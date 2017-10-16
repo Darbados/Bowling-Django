@@ -1,0 +1,43 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+  <!-- Content Type Meta tag -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="description" content="Bowling app">
+  <meta name="keywords" content="bowling">
+  <meta name="author" content="Petar Netev">
+  <!--Responsive Viewport Meta tag-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <link rel="stylesheet" href="{% static 'bowling/css/index.css' %}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <title>Bowling</title>
+  </head>
+  <body>
+    <div class="container">
+      <form method="post">
+        <img src="{% static 'bowling/images/starting_page.jpg' %}" alt="starting page" class="img-rounded"/>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field|addClass:'form-control' }}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Start game</button>
+      </form>
+    </div>
+   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

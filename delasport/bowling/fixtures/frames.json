@@ -1,0 +1,38 @@
+[
+  {
+    "model": "bowling.frame",
+    "fields": {
+      "pk": 1,
+      "attempt1": "9",
+      "attempt2": "/",
+      "game_id": 1,
+    }
+  },
+  {
+    "model": "bowling.frame",
+    "fields": {
+      "pk": 2,
+      "attempt1": "5",
+      "attempt2": "3",
+      "game_id": 1,
+    }
+  },
+  {
+    "model": "bowling.frame",
+    "fields": {
+      "pk": 3,
+      "attempt1": "X",
+      "attempt2": "-",
+      "game_id": 1,
+    }
+  },
+  {
+    "model": "bowling.frame",
+    "fields": {
+      "pk": 4,
+      "attempt1": "5",
+      "attempt2": "/",
+      "game_id": 1,
+    }
+  },
+]
