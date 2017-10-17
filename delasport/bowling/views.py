@@ -28,7 +28,13 @@ class Add_Roll(View):
         recordedFrames = game.frames.all()
         rolls_live = [[x.attempt1, x.attempt2, x.attempt3] for x in recordedFrames]
         results = [x.total_score_in_frame for x in recordedFrames]
-        results = re_calculate(rolls_live, results, results[0])
+        try:
+            results[0]
+            results = re_calculate(rolls_live, results, results[0])
+        except IndexError:
+            results = re_calculate(rolls_live, results, False)
+        game.total_score = sum(results)
+        game.save()
 
         context = {'name': game.player, 'form': form, 'game_id': game.id, 'madeRolls': recordedFrames, 'results': results}
         return render(request, 'bowling/add_roll.html', context)
@@ -52,7 +58,6 @@ def total_score(request, game_id):
     results = []
     results = re_calculate(frame_results, results, False)
 
-    game.total_score = sum(results)
     context = {'game':game, 'results': results, 'total': game.total_score}
     return render(request, template, context)
 

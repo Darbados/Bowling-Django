@@ -57,7 +57,7 @@ $("input[type=button]").on('click', function(){
        random_value = values[Math.floor((Math.random()*values.length))];
       //fill the attempt 1 field with the result from the first roll
       $("#id_attempt1").val(random_value);
-      $('.table').find('td').eq(current_roll-1).html(random_value);
+      $('.table').find('td').eq(current_roll-1).find('.place').val(random_value);
 
       rolls.push({roll: current_roll, result: random_value})
 
@@ -67,7 +67,7 @@ $("input[type=button]").on('click', function(){
 
       if (random_value == 10){
         $("#id_attempt2").val(0);
-        $('.table').find('td').eq(current_roll-1).html('-');
+        $('.table').find('td').eq(current_roll-1).find('.place').val('-');
 
         rolls.push({roll: current_roll, result: 0});
         total = 10;
@@ -88,7 +88,7 @@ $("input[type=button]").on('click', function(){
       $("#id_attempt2").val(random_value);
 
       //fill the appropriate box in the scoreboard
-      $('.table').find('td').eq(current_roll-1).text((random_value + rolls[0].result) < 10 ? random_value : '/')
+      $('.table').find('td').eq(current_roll-1).find('.place').val((random_value + rolls[0].result) < 10 ? random_value : '/')
 
       rolls.push({roll: current_roll, result: random_value})
       $(this).addClass('hidden');
@@ -105,7 +105,7 @@ $("input[type=button]").on('click', function(){
       $("#id_attempt" + current_roll).val(random_value);
 
       //fill the appropriate box in the scoreboard
-      $('.table').find('td').eq(current_roll-1).text(random_value == 10 ? 'X' : random_value)
+      $('.table').find('td').eq(current_roll-1).find('.place').val(random_value == 10 ? 'X' : random_value)
 
       rolls.push({roll: current_roll, result: random_value})
 
@@ -115,7 +115,7 @@ $("input[type=button]").on('click', function(){
 
       if (random_value == 10){
         $("#id_attempt2").val(0);
-        $('.table').find('td').eq(current_roll-1).text('-');
+        $('.table').find('td').eq(current_roll-1).find('.place').val('-');
         rolls.push({roll: current_roll, result: 0});
         total = 10;
         $(this).addClass('hidden');
@@ -134,7 +134,7 @@ $("input[type=button]").on('click', function(){
       $("#id_attempt" + current_roll).val(random_value);
 
       //fill the appropriate box in the scoreboard
-      $('.table').find('td').eq(current_roll-1).text((random_value + rolls[0].result) < 10 ? random_value : '/')
+      $('.table').find('td').eq(current_roll-1).find('.place').val((random_value + rolls[0].result) < 10 ? random_value : '/')
 
       rolls.push({roll: current_roll, result: random_value})
       current_roll++;
@@ -154,7 +154,7 @@ $("input[type=button]").on('click', function(){
       console.log(`Frame: ${current_frame}, Roll: ${current_roll}`);
 
       $("#id_attempt" + current_roll).val(random_value);
-      $('.table').find('td').eq(current_roll-1).text(random_value == 10 ? 'X' : random_value);
+      $('.table').find('td').eq(current_roll-1).find('.place').val(random_value == 10 ? 'X' : random_value);
 
       $(this).addClass('hidden');
       $("input[type=submit]").removeClass('hidden');

@@ -22,17 +22,15 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <title>Bowling</title>
+  <title>Bowling app</title>
   </head>
   <body>
-    {{ results }}
     <div class="container">
-
 
     {% if madeRolls.count < 10 %}
     <h1>Bowling emulation, player <span style="font-weight: bold;">{{ name }}</span></h1>
     <input type="hidden" class="frame" value="{{ madeRolls.count }}"/>
-    
+
     <form id="attempt1" method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -50,7 +48,7 @@
     </form>
 
     <table class="table show_roll_results">
-      <tr><td>Roll 1</td><td>Roll 2</td><td {% if madeRolls.count < 9 %}class="hidden"{%endif%}>Roll 3</td></tr>
+      <tr><td><input class="place" type="text" size="3" disabled value="Roll 1"/></td><td><input class="place" type="text" size="3" value="Roll 2" disabled/></td><td {% if madeRolls.count < 9 %}class="hidden"{%endif%}> <input class="place" type="text" size="3" value="Roll 3" disabled /></td></tr>
     </table>
     {% endif %}
 
@@ -60,17 +58,37 @@
           <li class="frame-results-{{forloop.counter}}">
             <div class="results-frame-{{forloop.counter}}">
               <p class="legend">Frame {{forloop.counter}}</p>
-              <span class="roll1 bottom-border">{% if frame.attempt1 == 10 %}X{% else %}{{ frame.attempt1 }}{% endif %}</span>
+              <span class="roll1 bottom-border">
+                {% if frame.attempt1 == 10 %}
+                 X
+                {% elif frame.attempt1 == 0 %}
+                 -
+                {% else %}
+                 {{ frame.attempt1 }}
+                {% endif %}
+              </span>
               <span class="roll2 left-border bottom-border">
                 {% if frame.attempt1 == 10 %}
                   -
-                {% elif frame.attempt1 >= 5 and frame.attempt2 >= 5 %}
+                {% elif frame.total_score_in_frame == 10 and frame.attempt1 != 10 and frame.attempt2 != 10 %}
                   /
+                {% elif frame.attempt2 == 0 %}
+                  -
                 {% else %}
                   {{ frame.attempt2 }}
                 {% endif %}
               </span>
-              {% if forloop.counter == 10 %}<span class="roll3 left-border bottom-border">{{ frame.attempt3 }}</span>{% endif %}
+              {% if forloop.counter == 10 %}
+              <span class="roll3 left-border bottom-border">
+                {% if frame.attempt3 == 10 %}
+                 X
+                {% elif frame.attempt3 == 0 %}
+                 -
+                {% else %}
+                 {{ frame.attempt1 }}
+                {% endif %}
+              </span>
+              {% endif %}
               <div class="total_frame">{{ results|at_index:forloop.counter0 }}</div>
             </div>
           </li>

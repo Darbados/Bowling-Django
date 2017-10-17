@@ -25,14 +25,22 @@
   <body>
     <div class="container">
       <table class="table bordered">
+        <tr>
+          <th>
+            Frame #
+          </th>
+          <th>
+            Score
+          </th>
+        </tr>
         {% for result in results %}
         <tr>
           <td>Frame {{ forloop.counter }}</td>
-          <td>{% if result > 1 %} {{ result }} points{% else %} {{ result }} point{% endif %}</td>
+          <td>{% if result != 1 %} {{ result }} points{% else %} {{ result }} point{% endif %}</td>
         </tr>
         {% endfor %}
         <tr>
-          <td colspan="2"><p style="text-align: center; font-size: 1.7em;">Total score in game: {{ total }}</p></td>
+          <td colspan="2"><p style="text-align: center; font-size: 1.7em;">Total score in game: {{ total }} points</p></td>
         </tr>
         <p style="text-align: center;"><a href="{% url 'bowling:index' %}" class="btn btn-primary">New game</a></p>
       </table>
