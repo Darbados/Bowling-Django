@@ -13,3 +13,15 @@ REST API exists by calling the 'bawling/api/<pk>' where <pk> stays for the prima
 Weakness:
 1. I've couldn't make this as a total REST app. This is at least what I need to learn more about.
 2. JS code is not elegant.
+
+
+BowlingREST emulation
+
+Short documentation of how the bowlingREST emulation app works.
+
+1. By calling the 'bowlingREST/' or 'blank' url, the home page will appear, where you'll be required to enter a name.
+2. By clicking 'start game' button, the add_roll page will load, where the rolls will be made. Angular + JS are used for random generating the rolls results and handling the Front-end part of the application. 
+3. By clicking the 'Next frame' button the rolls from the current frame will be submit by the add_roll() method, which makes the PUT request into the API.
+4. When all frames are finished, you'll be able to check your final score, by clicking on the 'total score' link. Then a 'total_score' page will be loaded by the total_score view, which is built as Django method. In this version the total score table, holds more information.
+
+To summarize the differences: This time a REST API is used for getting/storing data into the database, instead of handling all in the Django views.
