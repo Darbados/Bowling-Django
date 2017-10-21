@@ -1,0 +1,12 @@
+.table {
+  width: 80%!important;
+  margin: 0 auto;
+}
+
+.table th {
+  font-size: 1.45em;
+}
+
+.table th, td {
+  text-align: center;
+}

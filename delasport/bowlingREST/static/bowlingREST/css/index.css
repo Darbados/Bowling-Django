@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+form {
+  width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+}
+
+.form-group {
+  padding: 5px;
+}
+
+#id_name {
+  display: inline-block;
+  width: 40%;
+  margin: 0 auto;
+}
