@@ -21,6 +21,5 @@ urlpatterns = [
     url(r'^$', views.blank, name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^bowling/', include('bowling.urls')),
-    url(r'^todo/', include('todo.urls')),
     url(r'^bowlingREST/', include('bowlingREST.urls')),
 ]

@@ -15,3 +15,16 @@ class Frame(models.Model):
     attempt2 = models.IntegerField(default=0, blank=True)
     attempt3 = models.IntegerField(default=0, blank=True)
     total_score_in_frame = models.IntegerField(default=0)
+
+
+class Proxy(models.Model):
+    address = models.CharField(max_length=88, default="")
+    is_in_use = models.PositiveSmallIntegerField(default=0, blank=0)
+    free = models.BooleanField(default=0, blank=0)
+
+    def __unicode__(self):
+        return self.address
+
+    class Meta:
+        app_label = "bowling"
+        verbose_name_plural = u"Proxies"

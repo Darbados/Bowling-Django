@@ -2,23 +2,55 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
-from .models import Frame, Game
+from .models import Frame, Game, Proxy
 from rest_framework import generics
 from .serializers import GameSerializer
 from .forms import NameForm, FrameForm
 from .methods import *
 
+import random
+
 class NameView(View):
+    def __init__(self):
+        self.proxy = ''
+        self.proxy_post = None
+        super(NameView, self).__init__()
+
     def get(self, request):
         form = NameForm()
+        self.proxy = random.choice(Proxy.objects.filter(is_in_use__lt=5))
+        self.proxy.is_in_use += 1
+
+        self.proxy_post = self.proxy
+
+        print "DEEEEEEEEEEEBUGGGGGGGGGGGGG"
+        print self.proxy_post
+        print "DEEEEEEEEEEEBUGGGGGGGGGGGGG"
+
+        if self.proxy.is_in_use >= 5:
+            self.proxy.free = False
+            self.proxy.save()
+        else:
+            self.proxy.save()
+
+        self.proxy_post = self.proxy
+
         template = 'bowling/index.html'
-        return render(request, template, {'form': form})
+        return render(request, template, {'form': form, 'proxies': self.proxy})
 
     def post(self, request):
         form = NameForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             game = Game.objects.create(player=name)
+
+            print "DEEEEEEEEEEEBUGGGGGGGGGGGGG"
+            print self.proxy_post
+            print "DEEEEEEEEEEEBUGGGGGGGGGGGGG"
+
+            #self.proxy_post.is_in_use -= 1
+            #self.proxy_post.free = True
+            #self.proxy_post.save()
         return HttpResponseRedirect(reverse('bowling:add_roll', args=(game.id,)))
 
 class Add_Roll(View):

@@ -26,6 +26,9 @@
   </head>
   <body>
     <div class="container">
+      {{ proxies }}
+      {{ proxies.is_in_use }}
+      {{ proxies.free }}
       <form method="post">
         <img src="{% static 'bowling/images/starting_page.jpg' %}" alt="starting page" class="img-rounded"/>
         {% csrf_token %}
