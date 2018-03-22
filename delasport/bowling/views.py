@@ -11,6 +11,8 @@ from serializers import GameSerializer
 from forms import NameForm, FrameForm
 from methods import *
 from collections import OrderedDict
+from django.utils import timezone
+from datetime import datetime
 
 class NameView(View):
     def get(self, request):
@@ -22,7 +24,7 @@ class NameView(View):
         form = NameForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            game = Game.objects.create(player=name)
+            game = Game.objects.create(player=name, start_date=timezone.now().strftime("%Y-%m-%d %H:%M:%S"))
         return HttpResponseRedirect(reverse('bowling:add_roll', args=(game.id,)))
 
 class Add_Roll(View):
@@ -46,13 +48,26 @@ class Add_Roll(View):
     def post(self, request, game_id):
         form = FrameForm(request.POST)
         game = get_object_or_404(Game, id=game_id)
+        frames_passed = [[x.attempt1,x.attempt2,x.attempt3] for x in game.frames.all()]
 
-        if form.is_valid():
+        print len(frames_passed)
+
+        if form.is_valid() and len(frames_passed) < 9:
             attempt1 = form.cleaned_data['attempt1']
             attempt2 = form.cleaned_data['attempt2']
             attempt3 = form.cleaned_data['attempt3']
             totalScore = int(attempt1)+int(attempt2)+int(attempt3)
             game.frames.create(attempt1=attempt1, attempt2=attempt2, attempt3=attempt3, total_score_in_frame=totalScore)
+        elif len(frames_passed) == 9:
+            attempt1 = form.cleaned_data['attempt1']
+            attempt2 = form.cleaned_data['attempt2']
+            attempt3 = form.cleaned_data['attempt3']
+            totalScore = int(attempt1)+int(attempt2)+int(attempt3)
+            game.frames.create(attempt1=attempt1, attempt2=attempt2, attempt3=attempt3, total_score_in_frame=totalScore)
+            game.end_date = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+            game.save()
+        else:
+            return HttpResponseRedirect(reverse('bowling:add_roll', args=(game_id,)))
         return HttpResponseRedirect(reverse('bowling:add_roll', args=(game_id,)))
 
 def total_score(request, game_id):
@@ -60,9 +75,15 @@ def total_score(request, game_id):
     template = 'bowling/total_score.html'
     frame_results = [[x.attempt1, x.attempt2, x.attempt3] for x in game.frames.all()]
     results = []
-    results = re_calculate(frame_results, results, False)
+    results = re_calculate(frame_results[:10], results, False)
+    #in case of un handled post requests after the 10 frames are played
+    if len(frame_results) > 10:
+        game.total_score = sum(results[:10])
+        game.save()
 
-    context = {'game':game, 'results': results, 'total': game.total_score}
+    time_played = seconds_to_minutes((game.end_date - game.start_date).seconds)
+
+    context = {'game':game, 'results': results, 'total': game.total_score, 'start_date': game.start_date, 'end_date': game.end_date, 'time_played': time_played['time_played']}
     return render(request, template, context)
 
 

@@ -1,10 +1,14 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
+
 
 class Game(models.Model):
     total_score = models.IntegerField(default=0)
     player = models.CharField(max_length=50, default="")
+    start_date = models.DateTimeField("date started", default=timezone.now)
+    end_date = models.DateTimeField("date ended", default=timezone.now)
 
     def __str__(self):
         return self.player

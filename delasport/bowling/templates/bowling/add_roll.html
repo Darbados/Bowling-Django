@@ -26,7 +26,6 @@
   </head>
   <body>
     <div class="container">
-
     {% if madeRolls.count < 10 %}
     <h1>Bowling emulation, player <span style="font-weight: bold;">{{ name }}</span></h1>
     <input type="hidden" class="frame" value="{{ madeRolls.count }}"/>
@@ -52,7 +51,7 @@
     </table>
     {% endif %}
 
-      <p class="title">Scoreboard Player: <span style="font-weight: 700; font-style: italic;">{{ name }}</span> {% if madeRolls.count == 10%}, check your <a href="{% url 'bowling:total_score' game_id %}">total score</a>{%endif%}</p>
+      <p class="title">Scoreboard Player: <span style="font-weight: 700; font-style: italic;">{{ name }}</span> {% if madeRolls.count >= 10%}, check your <a href="{% url 'bowling:total_score' game_id %}">total score</a>{%endif%}</p>
       <ul id="scoreboard">
         {% for frame in madeRolls %}
           <li class="frame-results-{{forloop.counter}}">

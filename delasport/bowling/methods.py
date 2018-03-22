@@ -42,3 +42,24 @@ def re_calculate(collected, final, first_result):
     else:
         final.append(first_result)
     return final
+
+def seconds_to_minutes(time_played):
+    seconds_minutes = float(time_played)/60
+    minutes = int(str(seconds_minutes).split('.')[0])
+    seconds = int((float(seconds_minutes)-float(minutes))*60)
+
+    if minutes > 1:
+        minutes_string = "{} {}".format(minutes, "minutes")
+    elif minutes == 1:
+        minutes_string = "{} {}".format(minutes, "minute")
+    else:
+        minutes_string = ""
+
+    if seconds == 1:
+        seconds_string = "{} {}".format(seconds, "second")
+    elif seconds > 1:
+        seconds_string = "{} {}".format(seconds, "seconds")
+    else:
+        seconds_string = ""
+
+    return {'time_played': "{} {} {}".format(minutes_string,("and" if seconds_string > 0 else ""),seconds_string)}

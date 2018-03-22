@@ -42,6 +42,9 @@
         <tr>
           <td colspan="2"><p style="text-align: center; font-size: 1.7em;">Total score in game: {{ total }} points</p></td>
         </tr>
+          <tr><td colspan="2"><p style="text-align: center; font-size: 1.7em;">Game started at: {{ start_date }}</p></td></tr>
+          <tr><td colspan="2"><p style="text-align: center; font-size: 1.7em;">Game finished at: {{ end_date }}</p></td></tr>
+          <tr><td colspan="2"><p style="text-align: center; font-size: 1.7em;">Game duration: {{ time_played }} seconds</p></td></tr>
         <p style="text-align: center;"><a href="{% url 'bowling:index' %}" class="btn btn-primary">New game</a></p>
       </table>
 
