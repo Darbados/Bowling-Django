@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bowling.apps.BowlingConfig',
-    'todo.apps.TodoConfig',
     'bowlingREST.apps.BowlingrestConfig',
     'django.contrib.admin',
     'django.contrib.auth',
