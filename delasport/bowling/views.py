@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
-from .models import Frame, Game
+from models import Frame, Game
+from rest_framework.views import APIView
 from rest_framework import generics
-from .serializers import GameSerializer
-from .forms import NameForm, FrameForm
-from .methods import *
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from serializers import GameSerializer
+from forms import NameForm, FrameForm
+from methods import *
+from collections import OrderedDict
 
 class NameView(View):
     def get(self, request):
@@ -62,6 +66,15 @@ def total_score(request, game_id):
     return render(request, template, context)
 
 
-class BowlingAPI(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+class BowlingAPI(APIView):
+
+    renderer_classes = (JSONRenderer,)
+
+    def get(self, request):
+        games = Frame.objects.select_related('game').order_by('id')
+
+        games_dict = OrderedDict()
+        for game in games:
+            print game.game.total_score,game.game.player
+            games_dict[game.id] = {"attempt1": game.attempt1, "attempt2": game.attempt2, "attempt3": game.attempt3, "total_score_in_frame": game.total_score_in_frame, "game{}".format(game.game.id): {"player":game.game.player, "total_score": game.game.total_score}}
+        return Response(games_dict)
