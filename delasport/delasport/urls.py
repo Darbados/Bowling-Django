@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^bowling/', include('bowling.urls')),
     url(r'^bowlingREST/', include('bowlingREST.urls')),
+    url(r'^proxies_service/', include('proxies_service.urls'))
 ]
