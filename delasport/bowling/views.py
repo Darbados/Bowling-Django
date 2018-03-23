@@ -96,6 +96,5 @@ class BowlingAPI(APIView):
 
         games_dict = OrderedDict()
         for game in games:
-            print game.game.total_score,game.game.player
             games_dict[game.id] = {"attempt1": game.attempt1, "attempt2": game.attempt2, "attempt3": game.attempt3, "total_score_in_frame": game.total_score_in_frame, "game{}".format(game.game.id): {"player":game.game.player, "total_score": game.game.total_score, "start_time": game.game.start_date, "end_date": game.game.end_date}}
         return Response(games_dict)
