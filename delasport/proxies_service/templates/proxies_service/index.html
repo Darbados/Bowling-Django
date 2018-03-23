@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Home page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <div id="main-container">
@@ -10,28 +13,35 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Source ID</th>
                     <th>Proxy ID</th>
+                    <th>Source ID</th>
                     <th>Used</th>
-                    <th>Used at</th>
-                    <th>Uncalled</th>
+                    <th>Cycles made</th>
+                    <th>Active</th>
+                    <th>Uset at</th>
                     <th>Reset at</th>
                     <th>Empty API</th>
                 </tr>
             </thead>
             {% for proxy in context %}
                 <tr>
-                    <td>{{ proxy.ID }}</td>
-                    <td>{{ proxy.source_id }}</td>
+                    <td>{{ proxy.id }}</td>
                     <td>{{ proxy.proxy_id }}</td>
+                    <td>{{ proxy.source_id }}</td>
                     <td>{{ proxy.used }}</td>
+                    <td>{{ proxy.cycles_made }}</td>
+                    <td>{{ proxy.active }}</td>
                     <td>{{ proxy.used_at }}</td>
-                    <td>{{ proxy.uncalled }}</td>
                     <td>{{ proxy.reset_at }}</td>
                     <td>{{ proxy.empty_api_responses_num }}</td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+    <script type="text/JavaScript">
+        $(document).ready(function(){
+            $("#proxies_data").DataTable()
+        })
+    </script>
 </body>
 </html>

@@ -7,5 +7,5 @@ from models import Source_Proxies
 
 def test(request):
     all_data = Source_Proxies.objects.using('proxies_service').all()
-    template = "templates/index.html"
+    template = "proxies_service/index.html"
     return render(request, template, {'context': all_data})
