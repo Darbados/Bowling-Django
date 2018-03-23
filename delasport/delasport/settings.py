@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'bowling.apps.BowlingConfig',
     'bowlingREST.apps.BowlingrestConfig',
-    'proxies_service.apps.ProxiesService',
+    'proxies_service.apps.ProxiesServiceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,11 +58,7 @@ ROOT_URLCONF = 'delasport.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            'bowling/templates',
-            'bowlingREST/templastes',
-            'proxies_service/templates'
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
