@@ -84,6 +84,14 @@ DATABASES = {
     },
     'proxies_service': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tracker_new',
+        'USER': 'bulanet',
+        'PASSWORD': 'spanak1',
+        'HOST': '192.168.35.141',
+        'PORT': '3306',
+    },
+    'proxies_serviceRoot': {
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'test',
         'USER': 'root',
         'PASSWORD': '',
