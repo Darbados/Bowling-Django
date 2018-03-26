@@ -13,12 +13,13 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Proxy ID</th>
                     <th>Source ID</th>
+                    <th>Proxy ID</th>
                     <th>Used</th>
-                    <th>Cycles made</th>
-                    <th>Active</th>
+                    <th>Used limit</th>
+                    <th>Status</th>
                     <th>Uset at</th>
+                    <th>Uncalled</th>
                     <th>Reset at</th>
                     <th>Empty API</th>
                 </tr>
@@ -26,12 +27,13 @@
             {% for proxy in context %}
                 <tr>
                     <td>{{ proxy.id }}</td>
-                    <td>{{ proxy.proxy_id }}</td>
                     <td>{{ proxy.source_id }}</td>
+                    <td>{{ proxy.proxy_id }}</td>
                     <td>{{ proxy.used }}</td>
-                    <td>{{ proxy.cycles_made }}</td>
-                    <td>{{ proxy.active }}</td>
+                    <td>{{ proxy.used_limit }}</td>
+                    <td>{{ proxy.status }}</td>
                     <td>{{ proxy.used_at }}</td>
+                    <td>{{ proxy.uncalled }}</td>
                     <td>{{ proxy.reset_at }}</td>
                     <td>{{ proxy.empty_api_responses_num }}</td>
                 </tr>
