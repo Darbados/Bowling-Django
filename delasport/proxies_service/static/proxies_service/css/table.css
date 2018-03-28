@@ -1,0 +1,19 @@
+#proxies_data_wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+input[type='search'] {
+    border-radius: 15px;
+    border-color: cyan;
+    outline: none;
+    text-indent: 15px;
+}
+
+tr.odd > td {
+    text-align: center;
+}
+
+tr.even > td {
+    text-align: center;
+}

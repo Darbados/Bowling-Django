@@ -303,3 +303,44 @@ print("{0} BUILDER {0}".format('#'*10))
 """
 BUILDER pattern end
 """
+
+
+def fibonacci():
+    a,b = 0,1
+    while True:
+        yield b
+        a,b = b, a+b
+
+fib = fibonacci()
+
+print(", ".join([str(next(fib)) for x in range(15)]))
+
+def factoriel(n):
+    if n == 0:
+        return 1
+    else:
+        return n*factoriel(n-1)
+
+fac = factoriel(5)
+print(fac)
+
+
+class Person(object):
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+    def __str__(self):
+        return "This is {}, aged {}".format(self.name, self.age)
+
+class Medic(Person):
+    def __init__(self, *args, **kwargs):
+        super(Medic, self).__init__(*args, **kwargs)
+        self.proffesion = 'medic'
+
+    def __str__(self):
+        return "This is {}, aged {}, with a {} profesion".format(self.name, self.age, self.proffesion)
+
+m1 = Medic('Teodor', 45, 'M')
+print(m1)

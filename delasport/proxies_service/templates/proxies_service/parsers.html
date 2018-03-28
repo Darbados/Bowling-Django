@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parsers</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="main-container">
+        <table id="parsers_data" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Source ID</th>
+                    <th>Worker key</th>
+                    <th>Proxies</th>
+                </tr>
+            </thead>
+            {% for scraper in parsers %}
+                {% for scraper_data in scraper.1 %}
+                        <tr>
+                            <td>{{ scraper_data.id }}</td>
+                            <td>{{ scraper_data.source_id }}</td>
+                            <td>{{ scraper_data.worker_key }}</td>
+                            <td>
+                                <ul>
+                                    {% for proxy_data in scraper.3 %}
+                                        <li>{{ proxy_data.proxy_id }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

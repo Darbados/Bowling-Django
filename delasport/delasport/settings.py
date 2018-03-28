@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'proxies_service': {
+    'tracker': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tracker_new',
         'USER': 'bulanet',
@@ -90,12 +90,12 @@ DATABASES = {
         'HOST': '192.168.35.141',
         'PORT': '3306',
     },
-    'proxies_serviceRoot': {
+    'site': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'NAME': 'sportsbook_updated',
+        'USER': 'bulanet',
+        'PASSWORD': 'spanak',
+        'HOST': '192.168.35.104',
         'PORT': '3306',
     }
 }
