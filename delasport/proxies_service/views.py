@@ -16,7 +16,7 @@ def test(request):
 def getProxies(request):
     proxies = Proxy.objects.using('site').filter(is_active=1)
     return HttpResponse("<br>".join(["{}:{}".format(proxy.address,proxy.port) for proxy in proxies]))
-
+#
 
 def getParsers(request):
     python_parsers = (
