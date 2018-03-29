@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse
 from models import *
-from django.db.models import Q
 
 
 def test(request):
@@ -35,7 +34,7 @@ def getParsers(request):
     parsers_data = []
     for p in python_parsers:
         parser_data = Parsers.objects.using('tracker').filter(worker_key__contains=p[0])
-        parser_proxies = Source_Proxies.objects.using('tracker').filter(source_id=p[1])
+        parser_proxies = Source_Proxies.objects.using('tracker').filter(source_id=p[1]).filter(status=1)
         parsers_data.append((
             'scrapers',parser_data,
             'proxies',parser_proxies
