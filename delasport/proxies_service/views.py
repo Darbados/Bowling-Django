@@ -34,13 +34,8 @@ def getParsers(request):
     parsers_data = []
     for p in python_parsers:
         parser_data = Parsers.objects.using('tracker').filter(worker_key__contains=p[0])
-        parser_proxies = Source_Proxies.objects.using('tracker').filter(source_id=p[1]).filter(status=1)
-        parsers_data.append((
-            'scrapers',parser_data,
-            'proxies',parser_proxies
-        ))
+        parsers_data.append(parser_data)
 
-
-    print parsers_data
+    proxies_list = Proxy.objects.using('site').filter(is_active=1)
     template = "proxies_service/parsers.html"
-    return render(request, template, {'parsers': parsers_data, 'python_only': python_parsers})
+    return render(request, template, {'parsers': parsers_data, 'proxies': proxies_list})

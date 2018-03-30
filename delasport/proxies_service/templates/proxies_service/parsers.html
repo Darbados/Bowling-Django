@@ -15,28 +15,37 @@
         <table id="parsers_data" class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Source ID</th>
                     <th>Worker key</th>
                     <th>Proxies</th>
                 </tr>
             </thead>
-            {% for scraper in parsers %}
-                {% for scraper_data in scraper.1 %}
-                        <tr>
-                            <td>{{ scraper_data.id }}</td>
-                            <td>{{ scraper_data.source_id }}</td>
-                            <td>{{ scraper_data.worker_key }}</td>
-                            <td>
-                                <ul>
-                                    {% for proxy_data in scraper.3 %}
-                                        <li>{{ proxy_data.proxy_id }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </td>
-                        </tr>
-                {% endfor %}
-            {% endfor %}
+            <tbody>
+                <tr>
+                    <td>
+                        <select id="parsers" name="parser_task">
+                            <option value="-1">Please select task</option>
+                            {% for parser in parsers %}
+                                {% for data in parser %}
+                                    <option value="{{ data.worker_key }}" name="{{ data.worker_key }}">{{ data.worker_key }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="proxies" name="proxy_id">
+                            <option value="-1">Please select proxy</option>
+                            {% for proxy in proxies %}
+                                {% if proxy.status == 1 %}
+                                    <option value="{{ proxy.id }}" name="{{ proxy.id }}">{{ proxy.proxy_id }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" value="Test" class="btn btn-success"/>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
