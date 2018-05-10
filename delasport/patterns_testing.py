@@ -37,6 +37,7 @@ print("{0} SINGLETON {0}".format('#'*10))
 
 print(a.x)
 print(a1.x)
+# print(b.x) --- The b does not share the same state as a&a1
 
 print("{0} SINGLETON {0}".format('#'*10))
 
@@ -55,13 +56,14 @@ class Borg(object):
     def __init__(self):
         self.__dict__ = self.__shared_state
 
-class IBorg(Borg):
 
+class IBorg(Borg):
     def __init__(self):
         Borg.__init__(self)
         self.state = 'init'
+        self.name = 'IBORG'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.state
 
 
@@ -77,13 +79,15 @@ class A1Borg(Borg): pass
 a = ABorg()
 a1 = A1Borg()
 b = BBorg()
+i = IBorg()
 
 a.x = 100
 
 print("{0} BORG {0}".format('#'*10))
-print(a.x)
+print(a.x,a.state,a.name)
 print(a1.x)
 print(b.x)
+print(i.x,i.state)
 print("{0} BORG {0}".format('#'*10))
 
 """
@@ -176,6 +180,7 @@ class Register(Prototype):
     def __str__(self):
         return ", ".join(self.names)
 
+
 r1 = Register(names=["Lily", "Pesho", "Alex"])
 
 r2 = r1.clone()
@@ -191,8 +196,8 @@ class MetaPrototype(type):
 
 class PrototypeM(metaclass=MetaPrototype): pass
 
-class ItemCollection(PrototypeM):
 
+class ItemCollection(PrototypeM):
     def __init__(self, items=[]):
         self.items = items
 
@@ -216,6 +221,7 @@ BUILDER pattern start
 
 # Using the Builder pattern to build Lego house with Rooms and Porch
 
+
 class Room(object):
 
     def __init__(self, nwindows=2, doors=1, direction='S'):
@@ -238,7 +244,6 @@ class Porch(object):
 
 
 class LegoHouse(object):
-
     def __init__(self, nrooms=0, nwindows=0, nporches=0):
         # windows per room
         self.nwindows = nwindows
@@ -299,7 +304,6 @@ print(builder.build())
 print("{0} BUILDER {0}".format('#'*10))
 
 
-
 """
 BUILDER pattern end
 """
@@ -311,15 +315,18 @@ def fibonacci():
         yield b
         a,b = b, a+b
 
+
 fib = fibonacci()
 
 print(", ".join([str(next(fib)) for x in range(15)]))
+
 
 def factoriel(n):
     if n == 0:
         return 1
     else:
         return n*factoriel(n-1)
+
 
 fac = factoriel(5)
 print(fac)
@@ -334,6 +341,7 @@ class Person(object):
     def __str__(self):
         return "This is {}, aged {}".format(self.name, self.age)
 
+
 class Medic(Person):
     def __init__(self, *args, **kwargs):
         super(Medic, self).__init__(*args, **kwargs)
@@ -341,6 +349,10 @@ class Medic(Person):
 
     def __str__(self):
         return "This is {}, aged {}, with a {} profesion".format(self.name, self.age, self.proffesion)
+
+    def __call__(self, *args, **kwargs):
+        return "Lets see how the overriding of the __call__ method will work"
+
 
 m1 = Medic('Teodor', 45, 'M')
 print(m1)
