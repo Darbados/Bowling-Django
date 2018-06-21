@@ -1,24 +1,41 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponseRedirect
 from models import Survey
 
 
 def index(request):
     latest_survey = Survey.objects.filter(status=Survey.SURVEY_STATUS_CREATED).order_by('-created_at')[0]
+    survey_unique_value = latest_survey.unique_value
+
     latest_survey.status = Survey.SURVEY_STATUS_SENT
     latest_survey.save()
 
-    return redirect('survey:survey', latest_survey.unique_value)
+    print "Debug"
+    print survey_unique_value
+    print "Debug"
+
+    return redirect('survey:survey', survey_unique_value)
 
 
-def survey(request, unique_value):
-    survey = Survey.objects.get(unique_value=unique_value)
-    survey.status = Survey.SURVEY_STATUS_COMPLETED
-    survey.save()
+def survey(request, uv):
+    if Survey.objects.get(unique_value=uv).status == Survey.SURVEY_STATUS_SENT:
+        survey = Survey.objects.get(unique_value=uv)
 
-    template = 'survey/survey.html'
+        survey.status = Survey.SURVEY_STATUS_COMPLETED
+        survey.save()
 
-    data = {
-        'survey': survey
-    }
+        template = 'survey/survey.html'
 
-    return render(request, template, data)
+        data = {
+            'survey': survey
+        }
+
+        return render(request, template, data)
+    else:
+        return render(request, 'survey/completed.html')
+
+
+def completed(request):
+    template = 'survey/completed.html'
+
+    return render(request, template)
