@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
-from .models import Game
+from models import Game
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import GameSerializer
-from .forms import NameForm
-from .methods import re_calculate
+from serializers import GameSerializer
+from forms import NameForm
+from methods import re_calculate
 
-from .forms import NameForm
+from forms import NameForm
 
 
 class NameView(View):
@@ -20,12 +20,18 @@ class NameView(View):
         return render(request, template, {'form': form})
 
     def post(self, request):
+
+        print "REQUEST POST"
+        print request.POST
+
+        return True
+        """
         form = NameForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             game = Game.objects.create(player=name)
         return HttpResponseRedirect(reverse('bowlingREST:add_roll', args=(game.id,)))
-
+        """
 
 class Add_Roll(View):
     def get(self, request, game_id):

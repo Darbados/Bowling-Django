@@ -28,13 +28,54 @@
   <body>
     <div class="container">
       <form method="post">
-        <img src="{% static 'bowlingREST/images/starting_page.jpg' %}" alt="starting page" class="img-rounded"/>
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="form-group">
-            {{ field|addClass:'form-control' }}
-          </div>
-        {% endfor %}
+          {% csrf_token %}
+        <fieldset>
+            <legend></legend>
+            <label for="male">Male</label>
+            <input type="radio" id="male" name="gender" value="1"/>
+
+            <label for="female">Female</label>
+            <input type="radio" id="female" name="gender" value="2"/>
+        </fieldset>
+
+
+        <fieldset>
+            <legend></legend>
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" />
+        </fieldset>
+
+        <fieldset>
+            <legend></legend>
+            <label for="rate1">Rate 1</label>
+            <input type="radio" id="rate1" name="rating1" value="1"/>
+
+            <label for="rate2">Rate 2</label>
+            <input type="radio" id="rate2" name="rating1" value="2"/>
+
+            <label for="rate3">Rate 3</label>
+            <input type="radio" id="rate3" name="rating1" value="3"/>
+
+        </fieldset>
+
+        <fieldset>
+            <legend></legend>
+            <label for="rate1">Rate 1</label>
+            <input type="radio" id="rate1" name="rating2" value="1"/>
+
+            <label for="rate2">Rate 2</label>
+            <input type="radio" id="rate2" name="rating2" value="2"/>
+
+            <label for="rate3">Rate 3</label>
+            <input type="radio" id="rate3" name="rating2" value="3"/>
+
+        </fieldset>
+
+        <fieldset>
+            <label for="comment">Anything:</label>
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        </fieldset>
+
         <button type="submit" class="btn btn-primary">Start game</button>
       </form>
     </div>

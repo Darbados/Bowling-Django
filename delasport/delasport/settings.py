@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'survey'
 ]
 
 MIDDLEWARE = [
@@ -81,22 +82,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'tracker': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tracker_new',
-        'USER': 'bulanet',
-        'PASSWORD': 'spanak1',
-        'HOST': '192.168.35.141',
-        'PORT': '3306',
-    },
-    'site': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sportsbook_updated',
-        'USER': 'bulanet',
-        'PASSWORD': 'spanak',
-        'HOST': '192.168.35.104',
-        'PORT': '3306',
     }
 }
 
