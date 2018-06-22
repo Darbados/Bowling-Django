@@ -27,3 +27,17 @@ class Survey(models.Model):
         if self.unique_value is '':
             self.unique_value = str(uuid.uuid1())
         super(Survey, self).save(*args, **kwargs)
+
+
+class RatingQuestion(models.Model):
+    RATE_1 = 1
+    RATE_2 = 2
+    RATE_3 = 3
+
+    RATE_OPTIONS = (
+        (RATE_1, '1 star'),
+        (RATE_2, '2 stars'),
+        (RATE_3, '3 stars'),
+    )
+
+    rating = models.CharField(choices=RATE_OPTIONS, max_length=1)

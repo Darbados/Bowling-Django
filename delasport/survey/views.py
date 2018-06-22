@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from models import Survey
+from forms import RatingForm
 
 
 def index(request):
@@ -34,6 +35,16 @@ def survey(request, uv):
     else:
         return render(request, 'survey/completed.html')
 
+
+def form_view(request):
+    template = 'survey/rating.html'
+    form = RatingForm()
+
+    data = {
+        'form': form
+    }
+
+    return render(request, template, data)
 
 def completed(request):
     template = 'survey/completed.html'
