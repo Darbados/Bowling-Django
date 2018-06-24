@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+</head>
+<body>
+<table class="all-survey">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th><p><a href="?created_at=oldest" title="Sort in ascending order">&#9652;</a><br>
+                <a href="?created_at=newest" title="Sort in descending order">&#9660;</a></p>Created at</th>
+            <th><p><a href="?status=asc" title="Sort in ascending order">&#9652;</a><br>
+                <a href="?status=desc" title="Sort in descending order">&#9660;</a></p>Status</th>
+            <th>Unique Value</th>
+        </tr>
+    </thead>
+    {% for survey in surveys %}
+        <tr>
+            <td>{{ survey.id }}</td>
+            <td>{{ survey.created_at }}</td>
+            <td>{{ survey.status }}</td>
+            <td>{{ survey.unique_value }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

@@ -39,12 +39,51 @@ def survey(request, uv):
 def form_view(request):
     template = 'survey/rating.html'
     form = RatingForm()
+    polucheno = request.GET.get('pesho') or None
 
     data = {
-        'form': form
+        'form': form,
+    }
+
+    if polucheno is not None:
+        data['polucheno'] = polucheno
+
+    return render(request, template, data)
+
+
+def all_surveys(request):
+    template = 'survey/all.html'
+    created_at = request.GET.get('created_at') or None
+    status = request.GET.get('status') or None
+
+    print("REQUEST GET")
+    print(request.GET)
+    print("REQUEST GET")
+
+    sort_obj = {}
+
+    if created_at is not None:
+        if created_at == 'oldest':
+            sort_obj['condition'] = 'created_at'
+        elif created_at == 'newest':
+            sort_obj['condition'] = '-created_at'
+    elif status is not None:
+        if status == 'asc':
+            sort_obj['condition'] = 'status'
+        elif status == 'desc':
+            sort_obj['condition'] = '-status'
+
+    if 'condition' in sort_obj:
+        surveys = Survey.objects.order_by(sort_obj['condition'])
+    else:
+        surveys = Survey.objects.all()
+
+    data = {
+        'surveys': surveys
     }
 
     return render(request, template, data)
+
 
 def completed(request):
     template = 'survey/completed.html'

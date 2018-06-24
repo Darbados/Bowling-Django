@@ -19,6 +19,7 @@ class Survey(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     unique_value = models.SlugField(max_length=100, default='', blank=True)
     status = models.IntegerField(default=SURVEY_STATUS_CREATED, choices=SURVEY_STATUSES)
+    answers = models.TextField(default='')
 
     def __str__(self):
         return "{0}-{1}".format(self.created_at, self.status)
@@ -41,3 +42,7 @@ class RatingQuestion(models.Model):
     )
 
     rating = models.CharField(choices=RATE_OPTIONS, max_length=1)
+    survey = models.ForeignKey(Survey, related_name='ratings')
+
+    def __str__(self):
+        return "Rated as: {}".format(self.rating)
