@@ -22,6 +22,9 @@
             <td>{{ survey.created_at }}</td>
             <td>{{ survey.status }}</td>
             <td>{{ survey.unique_value }}</td>
+            {% for question, answer in survey.answers_json.items %}
+                <td>{{ answer.0 }} - {{ answer.1.0 }}</td>>
+            {% endfor %}
         </tr>
     {% endfor %}
 </table>

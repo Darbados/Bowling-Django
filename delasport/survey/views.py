@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from models import Survey
 from forms import RatingForm
+import json
 
 
 def index(request):
@@ -10,10 +11,6 @@ def index(request):
 
     latest_survey.status = Survey.SURVEY_STATUS_SENT
     latest_survey.save()
-
-    print "Debug"
-    print survey_unique_value
-    print "Debug"
 
     return redirect('survey:survey', survey_unique_value)
 
@@ -56,10 +53,6 @@ def all_surveys(request):
     created_at = request.GET.get('created_at') or None
     status = request.GET.get('status') or None
 
-    print("REQUEST GET")
-    print(request.GET)
-    print("REQUEST GET")
-
     sort_obj = {}
 
     if created_at is not None:
@@ -77,6 +70,11 @@ def all_surveys(request):
         surveys = Survey.objects.order_by(sort_obj['condition'])
     else:
         surveys = Survey.objects.all()
+
+    all_s = Survey.objects.all()
+
+    for s in all_s:
+        print(s.answers_json['question_3'])
 
     data = {
         'surveys': surveys
