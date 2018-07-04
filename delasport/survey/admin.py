@@ -1,13 +1,21 @@
 from django.contrib import admin
-from models import Survey
+from models import Survey, Question, Responses
 
 
-class SurveyAdmin(admin.ModelAdmin):
-    model = Survey
+class ResponsesAdmin(admin.StackedInline):
+    model = Responses
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    model = Question
 
     class Meta:
-        list_display = ('status', 'created_at')
+        list_display = ('question_text', 'question_type', 'status', 'created_at')
+
+    inlines = [ResponsesAdmin]
 
 
-admin.site.register(Survey, SurveyAdmin)
+admin.site.register(Question, QuestionAdmin)
+
+
 

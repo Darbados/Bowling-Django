@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import hashlib
+
 from django.db import models
 from django.utils import timezone
 import uuid
@@ -11,53 +13,145 @@ from collections import OrderedDict
 class Survey(models.Model):
     SURVEY_STATUS_CREATED = 1
     SURVEY_STATUS_SENT = 2
-    SURVEY_STATUS_COMPLETED = 3
+    SURVEY_STATUS_ANSWERED = 3
 
     SURVEY_STATUSES = (
         (SURVEY_STATUS_CREATED, 'created'),
-        (SURVEY_STATUS_SENT, 'sent'),
-        (SURVEY_STATUS_COMPLETED, 'completed'),
+        (SURVEY_STATUS_SENT, 'send'),
+        (SURVEY_STATUS_ANSWERED, 'answered'),
     )
 
-    RATING_OPTIONS = list(range(1,6))
+    survey_unique_value = models.SlugField(
+        max_length=100,
+        default='',
+    )
+    status = models.IntegerField(
+        default=SURVEY_STATUS_CREATED,
+        choices=SURVEY_STATUSES,
+    )
+    user_comment = models.TextField(
+        default='',
+    )
+    internal_comment = models.TextField(
+        default='',
+    )
 
-    created_at = models.DateTimeField(default=timezone.now)
-    unique_value = models.SlugField(max_length=100, default='', blank=True)
-    status = models.IntegerField(default=SURVEY_STATUS_CREATED, choices=SURVEY_STATUSES)
-    answers = models.TextField(default='')
+    created_at = models.DateTimeField(
+        default=timezone.now,
+    )
 
     def __str__(self):
-        return "{0}-{1}".format(self.created_at, self.status)
+        return 'Survey {0}, {1}'.format(self.id, self.created_at)
 
-    @property
-    def answers_json(self):
-        return json.loads(self.answers)
+    @classmethod
+    def get_random_string(cls):
+        all_survey_unique_values = set()
+        all_surveys = Survey.objects.all()
+
+        for survey in all_surveys:
+            all_survey_unique_values.add(survey.survey_unique_value)
+
+        new_unique_value = str(uuid.uuid1())
+
+        while True:
+            if new_unique_value in all_survey_unique_values:
+                new_unique_value = str(uuid.uuid1())
+            else:
+                break
+
+        return new_unique_value
+
+
+class Question(models.Model):
+    QUESTION_SINGLE_SELECT = 2
+    QUESTION_MULTIPLE_SELECT = 3
+    QUESTION_RATTING = 4
+
+    QUESTION_OPEN_END_COMMENT = 'What you would like to be changed?'
+
+    QUESTION_SINGLE_SELECT_ANSWER_YES = 'Yes'
+    QUESTION_SINGLE_SELECT_ANSWER_NO = 'No'
+
+    QUESTION_RATTING_OPTIONS = 5
+
+    QUESTION_STATUS_ACTIVE = 1
+    QUESTION_STATUS_INACTIVE = 0
+
+    QUESTION_TYPES = (
+        (QUESTION_SINGLE_SELECT, 'Yes / No'),
+        (QUESTION_RATTING, 'rating'),
+    )
+
+    QUESTION_STATUSES = (
+        (QUESTION_STATUS_ACTIVE, 'active'),
+        (QUESTION_STATUS_INACTIVE, 'inactive'),
+    )
+
+    question_text = models.TextField()
+    question_type = models.IntegerField(
+        default=QUESTION_RATTING,
+        choices=QUESTION_TYPES,
+    )
+    status = models.IntegerField(
+        default=QUESTION_STATUS_ACTIVE,
+        choices=QUESTION_STATUSES,
+    )
+    number = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.question_text
 
     def save(self, *args, **kwargs):
-        if self.unique_value is '':
-            self.unique_value = str(uuid.uuid1())
+        super(Question, self).save(*args, **kwargs)
 
-        self.answers = OrderedDict()
+        if self.question_type == Question.QUESTION_SINGLE_SELECT_ANSWER_NO:
+            Responses.objects.create(
+                question=self,
+                response_text=Question.QUESTION_SINGLE_SELECT_ANSWER_YES,
+            )
+            Responses.objects.create(
+                question=self,
+                response_text=Question.QUESTION_SINGLE_SELECT_ANSWER_NO,
+            )
+        elif self.question_type == Question.QUESTION_RATTING:
+            responses = Question.QUESTION_RATTING_OPTIONS
+            question = Question.objects.get(id=self.id)
+            while responses > 0:
+                resp = Responses.objects.create(
+                    question=question,
+                    response_text=str(responses),
+                )
+                resp.save()
+                responses -= 1
 
-        for x in range(3):
-            self.answers["question_{}".format(x+1)] = ["How are you?", random.sample(Survey.RATING_OPTIONS, 1)[0]]
-        self.answers = json.dumps(self.answers, ensure_ascii=False)
-        super(Survey, self).save(*args, **kwargs)
 
-
-class RatingQuestion(models.Model):
-    RATE_1 = 1
-    RATE_2 = 2
-    RATE_3 = 3
-
-    RATE_OPTIONS = (
-        (RATE_1, '1 star'),
-        (RATE_2, '2 stars'),
-        (RATE_3, '3 stars'),
+class Responses(models.Model):
+    question = models.ForeignKey(
+        Question,
+        related_name='responses',
+        on_delete=models.CASCADE,
+    )
+    response_text = models.CharField(
+        default='',
+        max_length=255,
     )
 
-    rating = models.CharField(choices=RATE_OPTIONS, max_length=1)
-    survey = models.ForeignKey(Survey, related_name='ratings')
+    def __unicode__(self):
+        return '{0} response {1}'.format(self.question, self.response_text)
 
-    def __str__(self):
-        return "Rated as: {}".format(self.rating)
+
+class Answers(models.Model):
+    answer = models.IntegerField()
+    survey = models.ForeignKey(
+        Survey,
+        related_name='answers',
+        on_delete=models.CASCADE,
+    )
+    question = models.ForeignKey(Question)
+
+    def __unicode__(self):
+        return 'Survey {0}, Question {1}, Answers: {2}'.format(
+            self.survey.id,
+            self.question.number,
+            self.answer,
+        )
