@@ -41,8 +41,8 @@ class Command(BaseCommand):
                 Answer(
                     id=answer_id,
                     answer=answer,
-                    question=question,
-                    survey=survey,
+                    question_id=question.id,
+                    survey_id=survey.id,
                 )
             )
         except Survey.DoesNotExist:

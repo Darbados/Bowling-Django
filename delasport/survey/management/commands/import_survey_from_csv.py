@@ -50,7 +50,7 @@ class Command(BaseCommand):
                     updated_at=updated_at_aware,
                     survey_unique_value=survey_unique_value,
                     status=status,
-                    order=order,
+                    order_id=order.id,
                     internal_comment=internal_comment,
                     user_comment=user_comment,
                 )
