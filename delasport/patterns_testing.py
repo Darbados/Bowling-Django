@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from copy import deepcopy
+from datetime import datetime, timedelta
 
 import pytz
 
@@ -360,9 +361,6 @@ m1 = Medic('Teodor', 45, 'M')
 print(m1)
 
 
-from datetime import datetime, timedelta
-
-
 def last_day_of_month(any_day):
     next_month = any_day.replace(day=28) + timedelta(days=4)  # this will never fail
     return next_month - timedelta(days=next_month.day)
@@ -375,3 +373,11 @@ one_week_ago = today - timedelta(days=7)
 print(today.replace(day=1))
 print(last_day)
 print("The date one week ago from {0}: {1}".format(today, one_week_ago))
+
+result = {}
+data = result.setdefault('pesho', {})
+data['age'] = 27
+private_info = data.setdefault('private', {})
+private_info['email'] = 'pesho.netev@gmail.com'
+
+print(result)
