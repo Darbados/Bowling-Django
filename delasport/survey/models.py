@@ -40,26 +40,16 @@ class Survey(models.Model):
         default=timezone.now,
     )
 
+    updated_at = models.DateTimeField(
+        default=timezone.now,
+    )
+
     def __str__(self):
         return 'Survey {0}, {1}'.format(self.id, self.created_at)
 
     @classmethod
     def get_random_string(cls):
-        all_survey_unique_values = set()
-        all_surveys = Survey.objects.all()
-
-        for survey in all_surveys:
-            all_survey_unique_values.add(survey.survey_unique_value)
-
-        new_unique_value = str(uuid.uuid1())
-
-        while True:
-            if new_unique_value in all_survey_unique_values:
-                new_unique_value = str(uuid.uuid1())
-            else:
-                break
-
-        return new_unique_value
+        return str(uuid.uuid1())
 
 
 class Question(models.Model):

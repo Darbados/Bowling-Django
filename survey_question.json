@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "number": "1",
+        "question_text": "Бихте ли поръчали отнов?",
+        "question_type": "2",
+        "status": "1"
+    },
+    {
+        "id": "2",
+        "number": "2",
+        "question_text": "Как ще оцените качестовото на доставените продукти?",
+        "question_type": "4",
+        "status": "1"
+    },
+    {
+        "id": "3",
+        "number": "3",
+        "question_text": "Как оценявате обслужването от екипа ни?",
+        "question_type": "4",
+        "status": "1"
+    }
+]

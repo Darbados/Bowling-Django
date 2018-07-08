@@ -1,33 +1,47 @@
+import csv
 from django.core.management import BaseCommand
-from survey.models import Question
+from survey.models import Survey
 
 
 class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        self.questions = []
+        self.surveys = []
 
-    def add_arguments(self, parser):
-        parser.add_argument('number_of_questions', type=int)
+    def save_survey(self, survey_id, survey_unique_value, status, user_comment, internal_comment,
+                    created_at, updated_at):
+
+        self.surveys.append(
+            Survey(
+                id=int(survey_id),
+                survey_unique_value=survey_unique_value,
+                status=int(status),
+                user_comment=user_comment,
+                internal_comment=internal_comment,
+                created_at=created_at,
+                updated_at=updated_at,
+            )
+        )
 
     def handle(self, *args, **options):
-        num_questions = options['number_of_questions']
-        for question_number in range(15000, num_questions):
-            question_id = question_number
-            question_text = 'This is question {}'.format(question_number)
-            question_type = Question.QUESTION_RATTING
-            status = Question.QUESTION_STATUS_ACTIVE
-            number = question_number
+        with open('/home/pesho/Projects/Bowling-Django/delasport/survey/db_export/survey_survey.csv', 'r') as input_data:
+            reader = csv.reader(input_data, delimiter=',')
+            next(reader)
+            for row in reader:
+                survey_id, survey_unique_value, status, user_comment, internal_comment, created_at, updated_at = row
 
-            self.questions.append(
-                Question(
-                    id=question_id,
-                    question_text=question_text,
-                    question_type=question_type,
-                    status=status,
-                    number=number,
-                )
-            )
+                self.save_survey(
+                    survey_id,
+                    survey_unique_value,
+                    status,
+                    user_comment,
+                    internal_comment,
+                    created_at,
+                    updated_at
+               )
 
-        Question.objects.bulk_create(self.questions)
+            Survey.objects.bulk_create(self.surveys)
+            self.stdout.write(
+                self.style.SUCCESS(
+                    'Successfully processed {} survey records.'.format(len(self.surveys))))
